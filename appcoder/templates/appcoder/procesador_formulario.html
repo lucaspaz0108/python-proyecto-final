@@ -1,0 +1,29 @@
+{% extends 'appcoder/base.html' %}
+
+{% block contenido %}
+
+<form action="" method="post">
+    {% csrf_token %}
+    <p>
+        Nombre procesador<input type="text" name="procesador">
+    </p>
+
+    <p>
+        Numero de nucleos <input type="number" name="nucleos">
+    </p>
+
+    <p>
+        Nombre de marca<input type="text" name="marca">
+    </p>
+
+    
+    <p>
+        Precio <input type="number" name="precio">
+    </p>
+
+    <input type="submit" value="Cargar procesador">
+
+
+</form>
+
+{% endblock %}
