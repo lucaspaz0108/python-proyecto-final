@@ -1,0 +1,15 @@
+{% extends 'appcoder/base.html' %}
+
+{% block contenido %}
+
+<p>Estamos buscando el: {{procesador}}</p>
+
+{% if procesadores %}
+<ul>
+    {% for procesador in procesadores %}
+    <li>{{procesador.nombre}} {{procesador.nucleos}} {{procesador.marca}} {{procesador.precio}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

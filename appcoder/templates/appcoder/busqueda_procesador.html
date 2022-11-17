@@ -1,0 +1,22 @@
+{% extends 'appcoder/base.html' %}
+
+{% block contenido %}
+
+<form  method="GET">
+    <p>
+        Nombre del procesador: <input type="text" name="nombre">
+        <input type="submit" value="Buscar ">
+    </p>
+
+
+</form>
+
+{% if listado_procesadores %}
+<ul>
+    {% for procesador in listado_procesadores %}
+    <li>{{procesador.nombre}} {{procesador.nucleos}} {{procesador.marca}} {{procesador.precio}}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+{% endblock %}

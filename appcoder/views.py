@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from appcoder.models import *
+from django.http import HttpResponse
 
 # Create your views here.
 def inicio(request):
@@ -40,3 +41,28 @@ def cargar_rams(request):
     
 
     return render(request, "appcoder/ram_formulario.html")
+
+def buscar_procesador(request):
+    if request.GET:
+        procesadores = Procesadores.objects.filter(nombre__icontains=request.GET["nombre"])
+        return render(request, "appcoder/busqueda_procesador.html", {"listado_procesadores": procesadores})
+    return render (request, "appcoder/busqueda_procesador.html", {"listado_procesadores": []})
+
+#     return render (request, "appcoder/busqueda_procesador.html")
+
+# def buscar(request):
+#     if request.GET["procesador"]:
+#         procesador = request.GET:
+#         procesadores = Procesadores.objects.filter(nombre__icontains=procesador)
+
+#         return render (request, "appcoder/resultados_busqueda_procesador.html", {"procesadores": procesadores})
+#     else:
+#         respuesta = "No enviaste datos"
+    
+#     return HttpResponse(respuesta)
+ #respuesta = f"Estoy buscando al procesador: {request.GET['procesador']}"
+# def resultados_busqueda_cursos(request):
+#     nombre_procesador = request.GET["nombre_procesador"]
+#     procesadores = Procesadores.objects.filter(nombre__icontains=procesador)
+
+#     return render (request, "appcoder/resultados_busqueda_procesador.html", {"procesadores": procesadores})
