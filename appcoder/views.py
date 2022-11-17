@@ -48,21 +48,3 @@ def buscar_procesador(request):
         return render(request, "appcoder/busqueda_procesador.html", {"listado_procesadores": procesadores})
     return render (request, "appcoder/busqueda_procesador.html", {"listado_procesadores": []})
 
-#     return render (request, "appcoder/busqueda_procesador.html")
-
-# def buscar(request):
-#     if request.GET["procesador"]:
-#         procesador = request.GET:
-#         procesadores = Procesadores.objects.filter(nombre__icontains=procesador)
-
-#         return render (request, "appcoder/resultados_busqueda_procesador.html", {"procesadores": procesadores})
-#     else:
-#         respuesta = "No enviaste datos"
-    
-#     return HttpResponse(respuesta)
- #respuesta = f"Estoy buscando al procesador: {request.GET['procesador']}"
-# def resultados_busqueda_cursos(request):
-#     nombre_procesador = request.GET["nombre_procesador"]
-#     procesadores = Procesadores.objects.filter(nombre__icontains=procesador)
-
-#     return render (request, "appcoder/resultados_busqueda_procesador.html", {"procesadores": procesadores})
