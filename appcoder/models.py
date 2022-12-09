@@ -10,11 +10,18 @@ class Procesadores(models.Model):
     marca = models.CharField(max_length=50)
     precio = models.IntegerField()
 
+    def __str__(self) -> str:
+        return f"{self.nombre} -> Precio: {self.precio} "
+
 class PlacasDeVideo(models.Model):
     nombre = models.CharField(max_length=50)
     VRAM = models.IntegerField()
     marca = models.CharField(max_length=50)
     precio = models.IntegerField()
+    def __str__(self) -> str:
+        return f"{self.nombre} -> VRAM: {self.VRAM} "
+
+    
 
 class RAM(models.Model):
     nombre = models.CharField(max_length=50)
