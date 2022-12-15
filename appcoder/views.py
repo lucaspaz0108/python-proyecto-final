@@ -1,12 +1,13 @@
 from django.shortcuts import render
 from appcoder.models import *
 from django.http import HttpResponse
+from appcoder.forms import  ProcesadorFormulario
 
 # Create your views here.
 def inicio(request):
     return render (request, "appcoder/base.html")
 
-def cargar_procesador(request):
+"""def cargar_procesador(request):
     if request.method == "POST":
         nombre_procesador = request.POST["procesador"]
         numero_nucleos = request.POST["nucleos"]
@@ -16,7 +17,29 @@ def cargar_procesador(request):
         procesador.save()
     
 
-    return render(request, "appcoder/procesador_formulario.html")
+    return render(request, "appcoder/procesador_formulario.html")"""
+
+def procesadores (request):
+
+    errores = ""
+
+    if request.method == "POST":
+        formulario = ProcesadorFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            procesador = Procesadores(nombre=data["nombre"], nucleos=data["nucleos"], marca=data["marca"], precio=data["precio"])
+            procesador.save()
+        else:
+            errores = formulario.errors
+
+    procesadores = Procesadores.objects.all()
+    formulario = ProcesadorFormulario()
+
+    contexto = {"listado_procesadores": procesadores, "formulario": formulario, "errores": errores}
+    return render(request, "appcoder/procesadores.html", contexto)
+
+
 
 def cargar_placas_de_video(request):
     if request.method == "POST":

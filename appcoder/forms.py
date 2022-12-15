@@ -17,3 +17,9 @@ class RAMFormulario(forms.Form):
     RAM = forms.IntegerField()
     marca = forms.CharField()
     precio = forms.IntegerField()
+
+"""class FormularioProcesador(forms.Form):
+    nombre = forms.CharField()
+    nucleos = forms.IntegerField()
+    marca = forms.CharField()
+    precio = forms.IntegerField()"""""
