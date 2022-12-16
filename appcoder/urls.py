@@ -10,4 +10,14 @@ urlpatterns = [
     path("buscar/procesador/", buscar_procesador, name="buscar-procesador"),
     path("busqueda/procesador/", buscar_procesador, name="busqueda_procesador"),
     path("procesadores/", procesadores, name="procesadores"),
+    path("procesadores/eliminar/<id>", eliminar_procesador, name="borrar_procesador"),
+    path("procesadores/editar/<id>", editar_procesador, name="editar_procesador"),
+    
+    path("rams/", RamList.as_view(), name="lista_ram"),
+    path("rams/detalle/<pk>/", RamDetail.as_view(), name="detalle_ram"),
+    path("rams/crear/", RamCreate.as_view(), name="crear_ram"),
+    path("rams/actualizar/<pk>/", RamUpdate.as_view(), name="actualizar_ram"),
+    path("rams/borrar/<pk>/", RamDelete.as_view(), name="borrar_ram"),
+
+    path("login/", login, name="auth-login")
 ]

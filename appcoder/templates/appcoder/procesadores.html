@@ -15,7 +15,7 @@
 {% if listado_procesadores %}
     <ul>
     {% for procesador in listado_procesadores %}
-        <li> {{procesador}}</li>
+        <li> {{procesador}} <a href="{% url 'borrar_procesador' procesador.id %}">Borrar</a>  <a href="{% url 'editar_procesador' procesador.id %}">Editar</a> </li>
     {% endfor %}
     </ul>
 {% else %}

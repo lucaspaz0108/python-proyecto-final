@@ -1,7 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from appcoder.models import *
 from django.http import HttpResponse
 from appcoder.forms import  ProcesadorFormulario
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.contrib.auth.forms import AuthenticationForm
+from django.contrib.auth import login,authenticate
 
 # Create your views here.
 def inicio(request):
@@ -40,6 +43,36 @@ def procesadores (request):
     return render(request, "appcoder/procesadores.html", contexto)
 
 
+def editar_procesador(request, id):
+    procesador = Procesadores.objects.get(id=id)
+
+    if request.method == "POST":
+        formulario = ProcesadorFormulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+
+            procesador.nombre = data["nombre"]
+            procesador.nucleos = data["nucleos"]
+            procesador.marca = data["marca"]
+            procesador.precio = data["precio"]
+            procesador.save()
+            return redirect("procesadores")
+        else:
+            return render(request, "appcoder/editar_procesador.html", {"formulario": formulario, "errores": formulario.errors})
+    else: 
+        formulario = ProcesadorFormulario(initial={"nombre":procesador.nombre, "nucleos":procesador.nucleos, "marca":procesador.marca, "precio":procesador.precio})
+        return render(request, "appcoder/editar_procesador.html", {"formulario": formulario, "errores": ""})
+    
+
+
+
+def eliminar_procesador(request, id):
+    procesador = Procesadores.objects.get(id=id)
+    procesador.delete()
+
+    return redirect("procesadores")
+
 
 def cargar_placas_de_video(request):
     if request.method == "POST":
@@ -71,3 +104,42 @@ def buscar_procesador(request):
         return render(request, "appcoder/busqueda_procesador.html", {"listado_procesadores": procesadores})
     return render (request, "appcoder/busqueda_procesador.html", {"listado_procesadores": []})
 
+class RamList(ListView):
+
+    model = RAM
+    template_name = "appcoder/list_ram.html"
+
+
+class RamDetail(DetailView):
+    model = RAM
+    template_name = "appcoder/detail_ram.html"
+
+class RamCreate(CreateView):
+
+    model = RAM
+    success_url = "appcoder/ram_form.html"
+    fields = ["nombre", "RAM", "marca", "precio"]
+    template_name = "appcoder/ram_form.html"
+
+class RamUpdate(UpdateView):
+    
+    model = RAM
+    success_url = "appcoder/rams/"
+    fields = ["nombre", "RAM", "marca", "precio"]
+
+class RamDelete(DeleteView):
+    model = RAM
+    success_url = "appcoder/rams/"
+
+
+
+def login(request):
+
+    errors = ""
+
+    if request.method == "POST":
+        formulario = AuthenticationForm(request, data=request.POST)
+        
+
+    formulario = AuthenticationForm()
+    return render (request, "appcoder/login.html", {"form": formulario, "errors":errors})

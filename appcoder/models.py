@@ -28,3 +28,6 @@ class RAM(models.Model):
     RAM = models.IntegerField()
     marca = models.CharField(max_length=50)
     precio = models.IntegerField()
+
+    def __str__(self) -> str:
+        return f"{self.nombre} -> Nombre: {self.nombre} "
