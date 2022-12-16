@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from appcoder.models import *
 from django.http import HttpResponse
-from appcoder.forms import  ProcesadorFormulario, UserRegisterForm
+from appcoder.forms import  ProcesadorFormulario, UserRegisterForm, UserEditForm, AvatarForm
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth import login,authenticate
@@ -10,7 +10,12 @@ from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 def inicio(request):
-    return render (request, "appcoder/base.html")
+    if request.user.is_authenticated:
+        imagen_model = Avatar.objects.filter(user= request.user.id).order_by("-id")[0]
+        imagen_url = imagen_model.imagen.url
+    else:
+        imagen_url = ""
+    return render (request, "appcoder/base.html", {"imagen_url":imagen_url})
 
 """def cargar_procesador(request):
     if request.method == "POST":
@@ -172,3 +177,52 @@ def register(request):
     
     formulario = UserRegisterForm()
     return render(request, "appcoder/register.html", {"form": formulario})
+
+
+@login_required
+def editar_perfil(request):
+    usuario = request.user
+    
+    if request.method == "POST":
+        #cargar informacion en el formulario
+        formulario = UserEditForm(request.POST)
+        #validacion del formulario
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+        #actualizacion del usuario con los datos del form
+            usuario.email = data["email"]
+            usuario.first_name = data["first_name"]
+            usuario.last_name = data["last_name"]
+            usuario.password1 = data["password1"]
+            usuario.password2 = data["password2"]
+            
+            usuario.save()
+            return redirect("inicio")
+        else:
+            return render(request, "appcoder/editar_perfil.html", {"form": formulario, "errors":formulario.errors})
+    else:
+        #crear formulario vacío
+        formulario = UserEditForm(initial = {"email":usuario.email,"first_name": usuario.first_name, "last_name": usuario.last_name})
+        pass
+    return render(request, "appcoder/editar_perfil.html",{"form":formulario})
+
+
+@login_required
+def agregar_avatar(request):
+    if request.method == "POST":
+        formulario = AvatarForm(request.POST, request.FILES)
+        
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            usuario = request.user
+            
+            avatar = Avatar(user=usuario, imagen=data["imagen"])
+            avatar.save()
+            
+            return redirect("inicio")
+        else:
+            return render(request, "appcoder/agregar_avatar.html", {"form": formulario, "errors":formulario.errors})
+        
+    formulario = AvatarForm()
+    
+    return render(request, "appcoder/agregar_avatar.html", {"form": formulario})

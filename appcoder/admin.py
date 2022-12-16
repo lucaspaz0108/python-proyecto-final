@@ -6,3 +6,4 @@ from appcoder.models import *
 admin.site.register(Procesadores)
 admin.site.register(PlacasDeVideo)
 admin.site.register(RAM)
+admin.site.register(Avatar)

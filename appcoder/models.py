@@ -1,7 +1,7 @@
 from django.db import models
 from mailbox import NoSuchMailboxError
 from unittest.util import _MAX_LENGTH
-
+from django.contrib.auth.models import User
 # Create your models here.
 
 class Procesadores(models.Model):
@@ -31,3 +31,8 @@ class RAM(models.Model):
 
     def __str__(self) -> str:
         return f"{self.nombre} -> Nombre: {self.nombre} "
+    
+class Avatar(models.Model):
+    
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    imagen = models.ImageField(upload_to="avatares", null=True, blank=True)
