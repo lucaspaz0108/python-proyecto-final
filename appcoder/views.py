@@ -210,12 +210,11 @@ def editar_perfil(request):
 @login_required
 def agregar_avatar(request):
     if request.method == "POST":
-        formulario = AvatarForm(request.POST, request.FILES)
+        formulario = AvatarForm(request.POST, request.FILES) #request.data.get('imagen_url')
         
         if formulario.is_valid():
             data = formulario.cleaned_data
             usuario = request.user
-            
             avatar = Avatar(user=usuario, imagen=data["imagen"])
             avatar.save()
             
@@ -223,6 +222,7 @@ def agregar_avatar(request):
         else:
             return render(request, "appcoder/agregar_avatar.html", {"form": formulario, "errors":formulario.errors})
         
+    
     formulario = AvatarForm()
     
     return render(request, "appcoder/agregar_avatar.html", {"form": formulario})
