@@ -2,18 +2,15 @@
 
 {% block contenido %}
 
-{% if errores %}
-    <p>Errores en el inicio de sesion: {{errors}}</p>
-{% endif %}
+    {% if errors %}
+        <p style="color: red">Errores en el inicio de sesion: {{errors}}</p>
+    {% endif %}
 
-<form method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Iniciar sesion">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Iniciar Sesión">
+    </form>
 
-
-</form>
-
-
-
+    <p> No tenés una cuenta? Crea una <a href="{% url 'auth-register'%}">aquí</a></p>
 {% endblock %}

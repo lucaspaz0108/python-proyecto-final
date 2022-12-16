@@ -35,6 +35,8 @@
    </head>
    <!-- body -->
    <body class="main-layout">
+
+      {{ request.user }}
       <!-- loader  -->
       <div class="loader_bg">
          <div class="loader"><img src="{% static 'appcoder/images/loading.gif' %}" alt="#" /></div>
@@ -63,7 +65,7 @@
                         <div class="collapse navbar-collapse" id="navbarsExample04">
                            <ul class="navbar-nav mr-auto">
                               <li class="nav-item active">
-                                 <a class="nav-link" href="index.html">Home</a>
+                                 <a class="nav-link" href="{% url 'inicio' %}">Inicio</a>
                               </li>
                               <li class="nav-item">
                                  <a class="nav-link" href="about.html">About</a>
@@ -83,9 +85,13 @@
                               <li class="nav-item d_none">
                                  <a class="nav-link" href="#"><i class="fa fa-search" aria-hidden="true"></i></a>
                               </li>
-                              <li class="nav-item d_none">
-                                 <a class="nav-link" href="#">Login</a>
-                              </li>
+                              
+                              {% if request.user.is_authenticated %}
+                                 <a class="nav-link" href="{% url 'auth-logout' %}">Logout</a>
+                              {% else %}
+                              <a class="nav-link" href="{% url 'auth-login' %}">Login</a>
+                              {% endif %}
+
                            </ul>
                         </div>
                      </nav>
